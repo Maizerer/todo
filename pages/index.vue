@@ -16,27 +16,25 @@
         </button>
       </div>
       <div class="flex flex-col gap-5 mt-10">
-        <div
+        <todo-item
           v-for="(todo, index) in todoList"
           :key="index"
-          class="w-full bg-gray-300 rounded-lg px-5 py-3 flex justify-between items-center"
-        >
-          <div class="font-medium">{{ index + 1 }}. {{ todo.title }}</div>
-          <button
-            class="rounded-lg bg-red-500 text-white px-5 py-2 hover:bg-red-400 active:bg-red-800 duration-200"
-            @click="deleteTodo(index)"
-          >
-            Удалить
-          </button>
-        </div>
+          :todo="todo"
+          :index="index"
+          @delete="deleteTodo(index)"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import todoItem from '~/components/TodoItem'
 export default {
   name: 'IndexPage',
+  components: {
+    todoItem,
+  },
   async asyncData(context) {
     try {
       const response = await context.$axios.get(
@@ -66,7 +64,7 @@ export default {
       }
       const todo = {
         id: this.counter,
-        text: this.todoText,
+        title: this.todoText,
       }
       this.todoList.push(todo)
       this.counter += 1
