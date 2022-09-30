@@ -35,15 +35,15 @@ export default {
   components: {
     todoItem,
   },
-  async asyncData(context) {
+  async asyncData({ $axios, error }) {
     try {
-      const response = await context.$axios.get(
+      const response = await $axios.get(
         'https://jsonplaceholder.typicode.com/todos?_limit=50'
       )
       const todoList = response.data
       return { todoList }
     } catch (e) {
-      context.error({
+      error({
         statusCode: 404,
         message: 'Сервер упал',
       })
