@@ -21,7 +21,9 @@
           :key="index"
           :todo="todo"
           :index="index"
+          :completed="completed"
           @delete="deleteTodo(index)"
+          @change="changeTodo"
         />
       </div>
     </div>
@@ -53,6 +55,7 @@ export default {
     return {
       todoText: '',
       todoList: [],
+      completed: false,
       counter: 0,
     }
   },
@@ -65,6 +68,7 @@ export default {
       const todo = {
         id: this.counter,
         title: this.todoText,
+        completed: this.completed,
       }
       this.todoList.push(todo)
       this.counter += 1
@@ -72,6 +76,9 @@ export default {
     },
     deleteTodo(index) {
       this.todoList.splice(index, 1)
+    },
+    changeTodo(){
+        this.completed = !this.completed;
     },
   },
 }
