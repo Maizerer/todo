@@ -21,9 +21,8 @@
           :key="index"
           :todo="todo"
           :index="index"
-          :completed="completed"
           @delete="deleteTodo(index)"
-          @change="changeTodo"
+          @change="changeTodo(index)"
         />
       </div>
     </div>
@@ -77,8 +76,8 @@ export default {
     deleteTodo(index) {
       this.todoList.splice(index, 1)
     },
-    changeTodo(){
-        this.completed = !this.completed;
+    changeTodo(index){
+        this.todoList[index].completed = !this.todoList[index].completed;
     },
   },
 }
