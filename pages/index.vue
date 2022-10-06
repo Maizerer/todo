@@ -54,7 +54,6 @@ export default {
     return {
       todoText: '',
       todoList: [],
-      completed: false,
       counter: 0,
     }
   },
@@ -67,7 +66,7 @@ export default {
       const todo = {
         id: this.counter,
         title: this.todoText,
-        completed: this.completed,
+        completed: false,
       }
       this.todoList.push(todo)
       this.counter += 1
