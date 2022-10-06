@@ -68,7 +68,7 @@ export default {
         title: this.todoText,
         completed: false,
       }
-      this.todoList.push(todo)
+      this.todoList.unshift(todo)
       this.counter += 1
       this.todoText = ''
     },
