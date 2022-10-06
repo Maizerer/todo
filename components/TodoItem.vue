@@ -3,7 +3,7 @@
     class="w-full bg-gray-300 rounded-lg px-5 py-3 flex justify-between items-center"
   >
     <button
-      class="px-2 py-2 bg-blue-600 hover:bg-blue-400 active:bg-blue-800 duration-200"
+      class="rounded-xl px-2 py-2 bg-blue-600 hover:bg-blue-400 active:bg-blue-800 duration-200"
       @click="doneTodo"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mb-1 mr-1">
