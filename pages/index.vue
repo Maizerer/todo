@@ -6,11 +6,11 @@
           v-model="todoText"
           class="border border-black rounded-2xl outline-none h-[50px] w-full p-5"
           type="text"
-          @keyup.enter="createTodo"
+          @keyup.enter="todoCreate"
         />
         <button
           class="bg-blue-800 text-white px-5 py-2 rounded-xl hover:bg-blue-500 active:bg-blue-900 duration-200"
-          @click="createTodo"
+          @click="todoCreate"
         >
           Создать
         </button>
@@ -30,19 +30,16 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 import todoItem from '~/components/TodoItem'
 export default {
   name: 'IndexPage',
   components: {
     todoItem,
   },
-  async asyncData({ $axios, error }) {
+  async asyncData({ error, store }) {
     try {
-      const response = await $axios.get(
-        'https://jsonplaceholder.typicode.com/todos?_limit=50'
-      )
-      const todoList = response.data
-      return { todoList }
+      await store.dispatch('todo/fetchTodos')
     } catch (e) {
       error({
         statusCode: 404,
@@ -53,12 +50,20 @@ export default {
   data() {
     return {
       todoText: '',
-      todoList: [],
-      counter: 0,
     }
   },
+  computed: {
+    ...mapState('todo', ['todoList', 'counter']),
+  },
   methods: {
-    createTodo() {
+    ...mapActions('todo', ['fetchTodos']),
+    ...mapMutations('todo', [
+      'createTodo',
+      'deleteTodo',
+      'changeTodo',
+      'setCounter',
+    ]),
+    todoCreate() {
       if (this.todoText === '') {
         this.$toast.error('Todo не может быть пустым')
         return
@@ -68,15 +73,9 @@ export default {
         title: this.todoText,
         completed: false,
       }
-      this.todoList.unshift(todo)
-      this.counter += 1
+      this.createTodo(todo)
+      this.setCounter(this.counter + 1)
       this.todoText = ''
-    },
-    deleteTodo(index) {
-      this.todoList.splice(index, 1)
-    },
-    changeTodo(index){
-        this.todoList[index].completed = !this.todoList[index].completed;
     },
   },
 }
